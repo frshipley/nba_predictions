@@ -1,0 +1,1 @@
+This is my TDI capstone project involving predicting NBA stats, and comparing with gambling odds from various sportsbooks.
