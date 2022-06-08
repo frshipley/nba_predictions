@@ -56,5 +56,4 @@ def GetTeamID(s):
 gamelogs['OPPONENT_ID'] = gamelogs['OPPONENT'].apply(GetTeamID)
 
 #pickle the gamelogs
-title = ".\logs\All_%s-%s_Gamelogs.pkl" % (season_list[-1][0:4],season_list[0][-2:])
-gamelogs.to_pickle(title)
+gamelogs.to_pickle(".\logs\gamelogs.pkl")

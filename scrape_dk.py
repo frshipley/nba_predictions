@@ -34,8 +34,6 @@ def parse(url):
     # scrape source code from rendered webpage
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
-    #response = webdriver.Chrome(options=options, service=Service(ChromeDriverManager().install()))
-    #response = webdriver.Chrome(Service(ChromeDriverManager().install()), options=options)
     response = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     response.get(url)
     sourceCode = response.page_source
@@ -52,7 +50,6 @@ def getLines():
                   }
         # make URL and parse HTML with beautiful soup
         url = urlBuilder(base, params)
-        #soup = BeautifulSoup(parse(url), 'html', features="lxml")
         soup = BeautifulSoup(parse(url), features="lxml")
         # scrape the first table (should be the only table)
         x = soup.findAll("table")
@@ -69,18 +66,18 @@ def getLines():
                 pd.to_numeric)
             df = df[["PLAYER", category + "_LINE", category + "_OVER", category + "_UNDER"]]
             df.to_pickle(
-                f".\\logs\\per_stat_lines\\LatestLine_{category}.pkl")  # cache these stats in case there is failure later
+                f".\\logs\\per_stat_lines\\latest_line_{category}.pkl")  # cache these stats in case there is failure later
         except KeyError:  # if  stats cannot be loaded (because they haven't been posted), load cached ones
             print(f"Lines for {category} have not been posted yet for this contest. Please try again later.")
             print('In the mean time, we have loaded the last cached stats.')
-            df = pd.read_pickle(f".\\logs\\per_stat_lines\\LatestLine_{category}.pkl")
+            df = pd.read_pickle(f".\\logs\\per_stat_lines\\latest_line_{category}.pkl")
         df_all = df_all.merge(df, how="outer", on="PLAYER")
 
-    df_all.to_pickle(f".\\logs\\LatestLine_All.pkl")  # cache these stats in case there is failure later
+    df_all.to_pickle(f".\\logs\\latest_line_all.pkl")  # cache these stats in case there is failure later
     return df_all
 
 
-def GetMatchupDetails():
+def getMatchupDetails():
     base = "https://sportsbook.draftkings.com/leagues/basketball/88670846"  # NBA league ID = 88670846
     params = {'category': 'player-props',
               'subcategory': 'points'  # this can be changed for whatever contest you like
@@ -120,5 +117,5 @@ def GetMatchupDetails():
     return opponent_dict
 
 
-matchup_dict = GetMatchupDetails()
+matchup_dict = getMatchupDetails()
 lines = getLines()

@@ -5,6 +5,7 @@ from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn.linear_model import RidgeCV
 from sklearn.impute import SimpleImputer
 import pandas as pd
+import numpy as np
 
 #ShiftStats transformer selects the appropriate personal stats and shifts them for the last game, 2 games ago, etc.
 class ShiftStats(BaseEstimator, TransformerMixin):
@@ -152,3 +153,4 @@ def stat_pipeline():
         ('regressor', RidgeCV(alphas=np.logspace(-4, 4, 10)))
     ])
     return pipe
+

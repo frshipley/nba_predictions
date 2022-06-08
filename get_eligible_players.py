@@ -37,4 +37,4 @@ for position in ['G', 'F', 'C']:
 
 # pickle the players list for later if necessary
 
-eligible_players.to_pickle(".\logs\Eligible_Players.pkl")
+eligible_players.to_pickle(".\logs\eligible_players.pkl")
