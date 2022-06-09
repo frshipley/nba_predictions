@@ -7,7 +7,8 @@ from sklearn.impute import SimpleImputer
 import pandas as pd
 import numpy as np
 
-#ShiftStats transformer selects the appropriate personal stats and shifts them for the last game, 2 games ago, etc.
+
+# ShiftStats transformer selects the appropriate personal stats and shifts them for the last game, 2 games ago, etc.
 class ShiftStats(BaseEstimator, TransformerMixin):
     def __init__(self, stats, shiftwidth=1):
         self.stats = stats
@@ -20,7 +21,8 @@ class ShiftStats(BaseEstimator, TransformerMixin):
         stats_shifted = X[['PLAYER_ID'] + self.stats].groupby(['PLAYER_ID']).shift(self.shiftwidth)
         return stats_shifted
 
-#Cumulative stats generates rolling cumulative average, and a roling average of last 4 games with smoothing weight
+
+# Cumulative stats generates rolling cumulative average, and a roling average of last 4 games with smoothing weight
 class MakeCumulativeStats(BaseEstimator, TransformerMixin):
 
     def __init__(self, stats, window=4):
@@ -48,7 +50,8 @@ class MakeCumulativeStats(BaseEstimator, TransformerMixin):
             df[stat + '_RECENT'] = temp.reset_index(level=0)[stat]
         return df.sort_index(ascending=False, inplace=True)
 
-#Opponent stats gets the players stats during last and last-3 previous matchups
+
+# Opponent stats gets the players stats during last and last-3 previous matchups
 class MakeOpponentStats(BaseEstimator, TransformerMixin):
     def __init__(self, stats, window=3):
         self.stats = stats
@@ -81,8 +84,9 @@ class MakeOpponentStats(BaseEstimator, TransformerMixin):
 
         return df.sort_index(ascending=False)
 
-#"group-by" estimator that applies the pipeline defined below to each player position (G, F, C)
-#based on the TDI ts miniproject
+
+# "group-by" estimator that applies the pipeline defined below to each player position (G, F, C)
+# based on the TDI ts miniproject
 class GroupbyEstimator(BaseEstimator, RegressorMixin):
 
     def __init__(self, column, estimator_factory):
@@ -92,9 +96,10 @@ class GroupbyEstimator(BaseEstimator, RegressorMixin):
         self.estimator_factory = estimator_factory
         self.predictors = {}
         self.predictions = {}
+        self.player_names = {}
 
     def helper_fit(self, X, y):
-        # get city name
+        # get position name
         position_name = X[self.column].iloc[0]
 
         # index y by city index to get "grouped" y
@@ -114,14 +119,17 @@ class GroupbyEstimator(BaseEstimator, RegressorMixin):
         position_name = X[self.column].iloc[0]
         # predict make a predictor for a given city
         self.predictions[position_name] = pd.Series(self.predictors[position_name].predict(X))
+        self.player_names[position_name] = X['PLAYER_NAME']
+
         return self.predictors[position_name]
 
     def predict(self, X):
         X_group = X.groupby(self.column)
         X_group.apply(self.helper_predict)
+
         return pd.concat(self.predictions)
 
-#make pipeline that does the following:
+# make pipeline that does the following:
 # 1) One-hot encodes TEAM, OPPONENT, and PLAYOFFS
 # 2) does game-shifts with windows of 1, 2, and 3-games past
 # 3) get cumulative self
@@ -153,4 +161,3 @@ def stat_pipeline():
         ('regressor', RidgeCV(alphas=np.logspace(-4, 4, 10)))
     ])
     return pipe
-
