@@ -1,5 +1,6 @@
 **logs/
 **/*.pkl### Windows template
+.idea/
 
 # Windows thumbnail cache files
 Thumbs.db
@@ -180,3 +181,4 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
+!/.gitignore
