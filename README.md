@@ -7,7 +7,7 @@ The order of operations is as follows:
 - `scrape_dk.py`
 - `assemble_df.py`
 - `predict.py`
-- `assemble_df_long.py`
+- `organize_altair_data.py`
 
 The above should all be run as a `cron` job (as soon as I figure out how)
 
