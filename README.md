@@ -12,5 +12,3 @@ The order of operations is as follows:
 The above should all be run as a `cron` job (as soon as I figure out how)
 
 After the logs are all created, you can see past performances by player plotted in `past_performances.ipynb`
-
-hello hello
