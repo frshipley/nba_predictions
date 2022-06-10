@@ -1,6 +1,6 @@
 **logs/
 **/*.pkl### Windows template
-.idea/
+**.idea/
 
 # Windows thumbnail cache files
 Thumbs.db
