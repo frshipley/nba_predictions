@@ -9,6 +9,7 @@ n.b. consider changing these criteria to be more robust to account for hurt play
 import pandas as pd
 from nba_api.stats.endpoints import leaguedashplayerstats
 
+
 def gp_min_filter(df, min_limit=500, gp_limit=30):
     return df[(df['MIN'] >= min_limit) & (df['GP'] >= gp_limit)]
 

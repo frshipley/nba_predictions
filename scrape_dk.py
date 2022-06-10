@@ -1,10 +1,11 @@
+import datetime
+
+import dateutil
+import dill as pickle
+import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
-import dateutil
-import datetime
-import dill as pickle
-import pandas as pd
 
 stat_dict = {'PTS': 'points',
              'REB': 'rebounds',
@@ -38,7 +39,6 @@ def parse(url):
     response.get(url)
     sourceCode = response.page_source
     return sourceCode
-
 
 
 def getLines():

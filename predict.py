@@ -1,8 +1,7 @@
-import prediction_pipeline as pp
-import pandas as pd
 import dill as pickle
+import pandas as pd
 
-stat = 'PTS'
+import prediction_pipeline as pp
 
 
 def makeModel(df, stat='PTS'):
@@ -40,4 +39,4 @@ for pos in ["C", "F", "G"]:
     temp.reset_index(inplace=True, drop=True)
     df_predict = pd.concat([df_predict, temp.join(all_p.loc[pos])])
 
-df_predict.to_pickle(f"./logs/current_and_future_predictions")
+df_predict.to_pickle(f"./logs/current_and_future_predictions.pkl")

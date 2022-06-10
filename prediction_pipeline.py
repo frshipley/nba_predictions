@@ -1,11 +1,11 @@
+import numpy as np
+import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin, RegressorMixin
 from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.pipeline import Pipeline, FeatureUnion
-from sklearn.linear_model import RidgeCV
 from sklearn.impute import SimpleImputer
-import pandas as pd
-import numpy as np
+from sklearn.linear_model import RidgeCV
+from sklearn.pipeline import Pipeline, FeatureUnion
+from sklearn.preprocessing import OneHotEncoder
 
 
 # ShiftStats transformer selects the appropriate personal stats and shifts them for the last game, 2 games ago, etc.
@@ -128,6 +128,7 @@ class GroupbyEstimator(BaseEstimator, RegressorMixin):
         X_group.apply(self.helper_predict)
 
         return pd.concat(self.predictions)
+
 
 # make pipeline that does the following:
 # 1) One-hot encodes TEAM, OPPONENT, and PLAYOFFS

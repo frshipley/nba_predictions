@@ -1,9 +1,8 @@
 import pandas as pd
-from nba_api.stats.static import teams
 from nba_api.stats.endpoints import leaguegamelog
+from nba_api.stats.static import teams
 
-
-#to start with, here are the last 5 seasons
+# to start with, here are the last 5 seasons
 season_list = [
     '2022-21',
     '2021-20',
@@ -11,6 +10,8 @@ season_list = [
     '2019-18',
     '2018-17'
 ]
+
+
 def getplayoffandregular(year):
     # get playoff stats
     df_reg = leaguegamelog.LeagueGameLog(
@@ -47,13 +48,16 @@ for year in season_list:
 gamelogs.sort_values(['PLAYER_NAME', 'GAME_DATE'], ascending=[True, False], inplace=True)
 gamelogs.drop(['FANTASY_PTS', 'VIDEO_AVAILABLE'], axis=1, inplace=True)
 
-#get opponent name from the matchup string
-gamelogs['OPPONENT'] = gamelogs['MATCHUP'].str.split(' vs. | @ ',expand=True)[1]
+# get opponent name from the matchup string
+gamelogs['OPPONENT'] = gamelogs['MATCHUP'].str.split(' vs. | @ ', expand=True)[1]
 
-#get the opponent ID from the opponent abbreviation
+
+# get the opponent ID from the opponent abbreviation
 def GetTeamID(s):
     return teams.find_team_by_abbreviation(s)['id']
+
+
 gamelogs['OPPONENT_ID'] = gamelogs['OPPONENT'].apply(GetTeamID)
 
-#pickle the gamelogs
+# pickle the gamelogs
 gamelogs.to_pickle(".\logs\gamelogs.pkl")
