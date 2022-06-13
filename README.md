@@ -12,4 +12,4 @@ To build or update logs, lines, and predictions, please run `update_data_logs.ba
 
 After the logs are all created, you can use the interactive charts in `interactive_charts.ipynb`
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/frshipley/nba_predictions/HEAD)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/frshipley/nba_predictions/HEAD?labpath=interactive_charts.ipynb)
