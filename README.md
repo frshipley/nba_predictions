@@ -1,7 +1,8 @@
 This is my TDI capstone project involving predicting NBA stats, and comparing with gambling odds from DraftKings.
 
-The order of operations is as follows:
+To build or update logs, lines, and predictions, please run `update_data_logs.bat`
 
+`update_data_logs.bat` runs the following modules in order:
 - `get_eligible_players.py`
 - `get_gamelogs.py`
 - `scrape_dk.py`
@@ -9,6 +10,4 @@ The order of operations is as follows:
 - `predict.py`
 - `organize_altair_data.py`
 
-The above should all be run as a `cron` job (as soon as I figure out how)
-
-After the logs are all created, you can see past performances by player plotted in `past_performances.ipynb`
+After the logs are all created, you can use the interactive charts in `interactive_charts.ipynb`

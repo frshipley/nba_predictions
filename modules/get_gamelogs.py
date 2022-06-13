@@ -60,4 +60,4 @@ def GetTeamID(s):
 gamelogs['OPPONENT_ID'] = gamelogs['OPPONENT'].apply(GetTeamID)
 
 # pickle the gamelogs
-gamelogs.to_pickle(".\logs\gamelogs.pkl")
+gamelogs.to_pickle("..\logs\gamelogs.pkl")

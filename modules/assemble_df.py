@@ -10,17 +10,17 @@ def FutureStats(lines, eligible_players, matchup_dict):
     return X[cols]
 
 
-eligible_players = pd.read_pickle("./logs/eligible_players.pkl")
-gamelogs = pd.read_pickle("./logs/gamelogs.pkl")
+eligible_players = pd.read_pickle("../logs/eligible_players.pkl")
+gamelogs = pd.read_pickle("../logs/gamelogs.pkl")
 
 #
 df = pd.merge(eligible_players, gamelogs, on=('PLAYER_ID', 'PLAYER_NAME', 'TEAM_ABBREVIATION'))
 df.sort_values(['PLAYER_NAME', 'GAME_DATE'], inplace=True)
 
 # load scraped lines
-lines = pd.read_pickle("./logs/latest_line_all.pkl")
+lines = pd.read_pickle("../logs/latest_line_all.pkl")
 
-matchup_dict = pd.read_pickle("./logs/upcoming_info.pkl")
+matchup_dict = pd.read_pickle("../logs/upcoming_info.pkl")
 
 futures = FutureStats(lines, eligible_players, matchup_dict)
 
@@ -30,4 +30,4 @@ df["FUTURE_GAME"] = 0
 df_upcoming = pd.concat([df, futures], ignore_index=True)
 df_upcoming.sort_values(['PLAYER_NAME', 'GAME_DATE', 'FUTURE_GAME'], inplace=True, ignore_index=True)
 
-df_upcoming.to_pickle("./logs/current_and_future_logs.pkl")
+df_upcoming.to_pickle("../logs/current_and_future_logs.pkl")

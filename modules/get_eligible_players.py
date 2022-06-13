@@ -37,5 +37,4 @@ for position in ['G', 'F', 'C']:
         eligible_players = pd.concat([eligible_players, df])
 
 # pickle the players list for later if necessary
-
-eligible_players.to_pickle(".\logs\eligible_players.pkl")
+eligible_players.to_pickle("..\logs\eligible_players.pkl")

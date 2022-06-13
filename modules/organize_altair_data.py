@@ -10,14 +10,14 @@ def flipColNames(c):
 ### ALL STATS LONG JSON PRODUCTION
 
 # load predictions
-df = pd.read_pickle(f"./logs/current_and_future_predictions.pkl")
+df = pd.read_pickle(f"../logs/current_and_future_predictions.pkl")
 
 #first get some season/playoff start and end dates
 cutoffs = df.groupby(["SEASON_ID", "PLAYOFFS"]).agg({"GAME_DATE":["min","max"]})
 cutoffs.columns = ['start', 'stop']
 cutoffs.reset_index(inplace=True)
 cutoffs.replace([0,1], ['Regular Season','Playoffs'], inplace=True)
-cutoffs.to_pickle(f"./logs/season_cutoffs")
+cutoffs.to_pickle(f"../logs/season_cutoffs")
 
 # aggregate players with predictions for multiple positions by simply averaging the predictions together
 # (e.g. Luka Doncic is listed as both a Guard and a Forward. Average the G and F predictions together)
@@ -34,16 +34,16 @@ df_long.sort_values(['PLAYER_NAME', 'GAME_DATE', 'MODEL'], inplace=True)
 df_long.reset_index(drop=True, inplace=True)
 
 # save the long .json
-url = f"./logs/predicted_stats.json"
+url = f"../logs/predicted_stats.json"
 df_long.to_json(url, orient="records")
 
 ### BEST BET LONG DF PRODUCTION
 
 #load predictions and lines
-df_p = pd.read_pickle(f"./logs/current_and_future_predictions.pkl")
+df_p = pd.read_pickle(f"../logs/current_and_future_predictions.pkl")
 df_p = df_p.loc[df_p['FUTURE_GAME']==1] #get only upcoming predictions
 
-lines = pd.read_pickle(f"./logs/latest_line_all.pkl")
+lines = pd.read_pickle(f"../logs/latest_line_all.pkl")
 
 #get labels for the stats and stats+"_PREDICT"
 stats = ["PTS", "REB", "AST", "FG3M", "BLK", "STL"]
@@ -75,4 +75,4 @@ labels = ["PREDICT", "LINE", "OVER", "UNDER", "dff"]
 df_p_long = pd.wide_to_long(df_p, stubnames=labels, i = ["PLAYER_NAME","GAME_DATE"], j="STAT", sep="_", suffix=r'\w+')[labels]
 df_p_long.reset_index(inplace=True)
 
-df_p_long.to_pickle(f"./logs/best_bet.pkl")
+df_p_long.to_pickle(f"../logs/best_bet.pkl")
