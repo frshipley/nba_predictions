@@ -35,6 +35,7 @@ def parse(url):
     # scrape source code from rendered webpage
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
+    #response = webdriver.Chrome(os.path.join(os.path.pardir,"drivers","chromedriver.exe"),options=options)
     response = webdriver.Chrome(ChromeDriverManager().install(), options=options)
     response.get(url)
     sourceCode = response.page_source
