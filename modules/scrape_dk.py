@@ -1,5 +1,5 @@
 import datetime
-
+import os
 import dateutil
 import dill as pickle
 import pandas as pd
@@ -55,6 +55,8 @@ def getLines():
         x = soup.findAll("table")
         df = pd.DataFrame()
 
+        latest_line_path = os.path.join(os.path.pardir, "logs","per_stat_lines", f"latest_line_{category}.pkl")
+
         for t in x:  # iterate over all of the tables (i.e. concatenate all upcoming games)
             temp_df = pd.read_html(t.prettify())[0]
             df = pd.concat([df, temp_df])
@@ -65,15 +67,15 @@ def getLines():
             df[category + "_UNDER"] = df["UNDER"].str.extract(r"[OU][\W\w]*([+|-]\d*)", expand=True).apply(
                 pd.to_numeric)
             df = df[["PLAYER", category + "_LINE", category + "_OVER", category + "_UNDER"]]
-            df.to_pickle(
-                f"..\logs\per_stat_lines\latest_line_{category}.pkl")  # cache these stats in case there is failure later
+            df.to_pickle(latest_line_path)  # cache these stats in case there is failure later
         except KeyError:  # if  stats cannot be loaded (because they haven't been posted), load cached ones
             print(f"Lines for {category} have not been posted yet for this contest. Please try again later.")
             print('In the mean time, we have loaded the last cached stats.')
-            df = pd.read_pickle(f"..\logs\per_stat_lines\latest_line_{category}.pkl")
+            df = pd.read_pickle(latest_line_path)
         df_all = df_all.merge(df, how="outer", on="PLAYER")
 
-    df_all.to_pickle(f"..\logs\latest_line_all.pkl")  # cache these stats in case there is failure later
+    latest_line_path_all = os.path.join(os.path.pardir, "logs", f"latest_line_all.pkl")
+    df_all.to_pickle(latest_line_path_all)  # cache these stats in case there is failure later
     return df_all
 
 
@@ -111,7 +113,8 @@ def getMatchupDetails():
         opponent_dict[home_team] = (away_team, d)
         opponent_dict[away_team] = (home_team, d)
 
-    with open('../logs/upcoming_info.pkl', 'wb') as file:
+    matchup_dict_path = os.path.join(os.path.pardir,"logs","upcoming_info.pkl")
+    with open(matchup_dict_path, 'wb') as file:
         pickle.dump(opponent_dict, file)
 
     return opponent_dict

@@ -1,18 +1,19 @@
 import dill as pickle
 import pandas as pd
-
+import os
 import prediction_pipeline as pp
 
 
 def makeModel(df, stat='PTS'):
     model = pp.GroupbyEstimator('POSITION', pp.stat_pipeline).fit(df, df[stat])
 
-    with open(f"..\\logs\\models\\model_{stat}.pkl", 'wb') as file:
+    model_path = os.path.join(os.path.pardir,"logs","models",f"model_{stat}.pkl")
+    with open(model_path, 'wb') as file:
         pickle.dump(model, file)
     return model
 
-
-df = pd.read_pickle("../logs/current_and_future_logs.pkl")
+df_upcoming_path = os.path.join(os.path.pardir,"logs","current_and_future_logs.pkl")
+df = pd.read_pickle(df_upcoming_path)
 
 # get only past data for training model
 df_past = df[df["FUTURE_GAME"] == 0]
@@ -39,4 +40,5 @@ for pos in ["C", "F", "G"]:
     temp.reset_index(inplace=True, drop=True)
     df_predict = pd.concat([df_predict, temp.join(all_p.loc[pos])])
 
-df_predict.to_pickle(f"../logs/current_and_future_predictions.pkl")
+df_prediction_path = os.path.join(os.path.pardir,"logs","current_and_future_predictions.pkl")
+df_predict.to_pickle(df_prediction_path)

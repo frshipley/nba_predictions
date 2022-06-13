@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 from nba_api.stats.endpoints import leaguegamelog
 from nba_api.stats.static import teams
 
@@ -60,4 +61,5 @@ def GetTeamID(s):
 gamelogs['OPPONENT_ID'] = gamelogs['OPPONENT'].apply(GetTeamID)
 
 # pickle the gamelogs
-gamelogs.to_pickle("..\logs\gamelogs.pkl")
+gamelogs_path = os.path.join(os.path.pardir, "logs", "gamelogs.pkl")
+gamelogs.to_pickle(gamelogs_path)

@@ -7,6 +7,7 @@ n.b. consider changing these criteria to be more robust to account for hurt play
 
 # filter by games and minutes played
 import pandas as pd
+import os
 from nba_api.stats.endpoints import leaguedashplayerstats
 
 
@@ -37,4 +38,5 @@ for position in ['G', 'F', 'C']:
         eligible_players = pd.concat([eligible_players, df])
 
 # pickle the players list for later if necessary
-eligible_players.to_pickle("..\logs\eligible_players.pkl")
+eligible_path = os.path.join(os.path.pardir, "logs", "eligible_players.pkl")
+eligible_players.to_pickle(eligible_path)

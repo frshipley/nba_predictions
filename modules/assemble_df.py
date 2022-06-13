@@ -1,4 +1,5 @@
 import pandas as pd
+import os
 
 
 def FutureStats(lines, eligible_players, matchup_dict):
@@ -9,18 +10,21 @@ def FutureStats(lines, eligible_players, matchup_dict):
     X['PLAYOFFS'] = 1
     return X[cols]
 
-
-eligible_players = pd.read_pickle("../logs/eligible_players.pkl")
-gamelogs = pd.read_pickle("../logs/gamelogs.pkl")
+eligible_path = os.path.join(os.path.pardir, "logs", "eligible_players.pkl")
+eligible_players = pd.read_pickle(eligible_path)
+gamelogs_path = os.path.join(os.path.pardir, "logs", "gamelogs.pkl")
+gamelogs = pd.read_pickle(gamelogs_path)
 
 #
 df = pd.merge(eligible_players, gamelogs, on=('PLAYER_ID', 'PLAYER_NAME', 'TEAM_ABBREVIATION'))
 df.sort_values(['PLAYER_NAME', 'GAME_DATE'], inplace=True)
 
 # load scraped lines
-lines = pd.read_pickle("../logs/latest_line_all.pkl")
+latest_line_path_all = os.path.join(os.path.pardir, "logs", f"latest_line_all.pkl")
+lines = pd.read_pickle(latest_line_path_all)
 
-matchup_dict = pd.read_pickle("../logs/upcoming_info.pkl")
+matchup_dict_path = os.path.join(os.path.pardir, "logs", "upcoming_info.pkl")
+matchup_dict = pd.read_pickle(matchup_dict_path)
 
 futures = FutureStats(lines, eligible_players, matchup_dict)
 
@@ -29,5 +33,5 @@ df["FUTURE_GAME"] = 0
 
 df_upcoming = pd.concat([df, futures], ignore_index=True)
 df_upcoming.sort_values(['PLAYER_NAME', 'GAME_DATE', 'FUTURE_GAME'], inplace=True, ignore_index=True)
-
-df_upcoming.to_pickle("../logs/current_and_future_logs.pkl")
+df_upcoming_path = os.path.join(os.path.pardir,"logs","current_and_future_logs.pkl")
+df_upcoming.to_pickle(df_upcoming_path)
