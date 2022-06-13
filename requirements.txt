@@ -9,3 +9,4 @@ nba_api
 altair
 webdriver-manager
 chromedriver-py
+chromium-browser
