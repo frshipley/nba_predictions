@@ -8,4 +8,4 @@ scikit-learn
 nba_api
 altair
 webdriver-manager
-chromium-driver
+chromium-chromedriver
