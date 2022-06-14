@@ -5,8 +5,11 @@ import dill as pickle
 import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.core.utils import ChromeType
+
+os.environ['WDM_LOCAL'] = '1' #set webdriver save path to local
 
 stat_dict = {'PTS': 'points',
              'REB': 'rebounds',
@@ -36,8 +39,15 @@ def parse(url):
     # scrape source code from rendered webpage
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
-    driver_path = os.path.join(os.path.pardir,"drivers")
-    response = webdriver.Chrome(service=Service(ChromeDriverManager(path=driver_path).install()), options=options)
+
+    if os.name =='nt':
+        chrometype = ChromeType.GOOGLE
+    else:
+        chrometype = ChromeType.CHROMIUM
+
+    response = (webdriver.Chrome(service=Service(ChromeDriverManager(path=os.path.pardir,
+                                                                     chrome_type=chrometype)
+                                                 .install()), options=options))
     response.get(url)
     sourceCode = response.page_source
     return sourceCode

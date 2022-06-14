@@ -1,6 +1,7 @@
 **logs/
 **/*.pkl### Windows template
 **.idea/
+**.wdm/
 
 # Temporary
 *.html
@@ -186,3 +187,4 @@ dmypy.json
 cython_debug/
 
 !/.gitignore
+!/modules/.wdm/
