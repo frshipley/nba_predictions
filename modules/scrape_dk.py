@@ -8,6 +8,7 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.core.utils import ChromeType
+import time
 
 os.environ['WDM_LOCAL'] = '1' #set webdriver save path to local
 
@@ -49,7 +50,10 @@ def parse(url):
                                                                      chrome_type=chrometype)
                                                  .install()), options=options))
     response.get(url)
+    time.sleep(5)
     sourceCode = response.page_source
+    response.quit()
+
     return sourceCode
 
 
