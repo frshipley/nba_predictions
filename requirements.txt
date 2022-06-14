@@ -9,4 +9,3 @@ nba_api
 altair
 webdriver-manager
 lxml
-time
