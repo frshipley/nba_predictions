@@ -1,1 +1,3 @@
 chromium-browser
+google-chrome-stable
+firefox
