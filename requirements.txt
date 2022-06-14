@@ -8,5 +8,3 @@ scikit-learn
 nba_api
 altair
 webdriver-manager
-chromedriver-py
-google-chrome-stable
