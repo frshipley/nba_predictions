@@ -40,6 +40,7 @@ def parse(url):
     # scrape source code from rendered webpage
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")
+    options.add_argument('--no-sandbox')
 
     if os.name =='nt':
         chrometype = ChromeType.GOOGLE
