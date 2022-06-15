@@ -37,4 +37,3 @@ python .\organize_altair_data.py
 ECHO Data organized!
 
 ECHO All data has been updated!
-PAUSE

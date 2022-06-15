@@ -22,7 +22,7 @@ class ShiftStats(BaseEstimator, TransformerMixin):
         return stats_shifted
 
 
-# Cumulative stats generates rolling cumulative average, and a roling average of last 4 games with smoothing weight
+# Cumulative stats generates rolling cumulative average, and a rolling average of last 4 games with smoothing weight
 class MakeCumulativeStats(BaseEstimator, TransformerMixin):
 
     def __init__(self, stats, window=4):
